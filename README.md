@@ -1,1 +1,1 @@
-Here the SmartSafe code is documented for easy, intuitive use. 
+The SmartSafe repository documents the system code for easy, intuitive use. 
