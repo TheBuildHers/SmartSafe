@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+ <title>Fire Safety Systems Co.</title>
+ <style>
+ :root{
+ --ink:#111;
+ --muted:#666;
+ --border:#222;
+ --bg:#fafafa;
+ --panel:#fff;
+ --accent:#0b4aa2;
+ --danger:#e37804;
+ }
+
+ *{ box-sizing:border-box; }
+ body{
+ margin:0;
+ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+ background: var(--bg);
+ color: var(--ink);
+ }
+
+ .page{
+ max-width: 980px;
+ margin: 28px auto;
+ padding: 0 18px 28px;
+ }
+
+ /* Header */
+ .header{
+ display:flex;
+ justify-content:space-between;
+ align-items:flex-start;
+ gap: 16px;
+ margin-bottom: 18px;
+ }
+ .brand h1{
+ margin:0;
+ font-size: 30px;
+ letter-spacing: .2px;
+ }
+ .brand h1 .red{ color: var(--danger); }
+ .brand .authors{
+ margin-top: 6px;
+ font-size: 13px;
+ color: var(--muted);
+ }
+
+ .tagline{
+ text-align:right;
+ font-weight: 700;
+ color: var(--accent);
+ line-height: 1.25;
+ white-space:nowrap;
+ }
+ .tagline .underline{
+ display:inline-block;
+ border-bottom: 3px solid var(--accent);
+ padding-bottom: 4px;
+ }
+
+ /* Main grid */
+ .grid{
+ display:grid;
+ grid-template-columns: 1.15fr .85fr;
+ gap: 22px;
+ align-items:start;
+ }
+
+ .left{
+ display:grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 22px;
+ }
+
+ .panel{
+ background: var(--panel);
+ border: 2px solid var(--border);
+ border-radius: 10px;
+ padding: 14px 14px 12px;
+ box-shadow: 0 2px 0 rgba(0,0,0,.06);
+ }
+
+ .panel h2{
+ margin: 0 0 10px;
+ font-size: 18px;
+ }
+
+ .value-box{
+ border: 2px solid var(--border);
+ border-radius: 8px;
+ height: 94px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding: 10px;
+ font-weight: 700;
+ font-size: 18px;
+ background: #fff;
+ }
+ .value-sub{
+ margin-top: 8px;
+ font-size: 12px;
+ color: var(--muted);
+ text-align:center;
+ }
+
+ details{
+ margin-top: 10px;
+ border-top: 1px dashed rgba(0,0,0,.25);
+ padding-top: 10px;
+ }
+ summary{
+ cursor:pointer;
+ font-weight: 650;
+ color: var(--ink);
+ list-style: none;
+ display:flex;
+ align-items:center;
+ gap: 8px;
+ }
+ summary::before{
+ content:"▸";
+ display:inline-block;
+ transform: translateY(-1px);
+ }
+ details[open] summary::before{ content:"▾"; }
+ .info{
+ margin-top: 8px;
+ color: var(--muted);
+ font-size: 13px;
+ line-height: 1.45;
+ }
+
+ /* Right side: FIRE area */
+ .right{
+ display:flex;
+ flex-direction:column;
+ gap: 14px;
+ }
+
+ .fire-box{
+ border: 2px solid transparent;
+ border-radius: 12px;
+ padding: 18px 16px;
+ background: #fff;
+ box-shadow: 0 2px 0 rgba(0,0,0,.06);
+ min-height: 330px;
+ display:flex;
+ flex-direction:column;
+ justify-content:space-between;
+ }
+
+ .fire-note{
+ font-size: 14px;
+ color: var(--muted);
+ line-height: 1.45;
+ }
+
+ .fire-status{
+ text-align:center;
+ padding: 14px 10px;
+ border-radius: 14px;
+ border: 2px solid rgba(0,0,0,.12);
+ background: #fff;
+ }
+ .fire-status .big{
+ font-size: 40px;
+ letter-spacing: 1px;
+ font-weight: 900;
+ margin: 0;
+ color: var(--danger);
+ display:none; /* shown when fire is detected */
+ }
+ .fire-status .safe{
+ font-size: 22px;
+ font-weight: 800;
+ margin: 0;
+ color: #0b66e6;
+ }
+
+ .fire-box.fire-on{
+ border-color: rgba(253, 144, 0, 0.874);
+ box-shadow: 0 0 0 6px rgba(208, 22, 22, .08);
+ }
+ .fire-box.fire-on .fire-status .big{ display:block; }
+ .fire-box.fire-on .fire-status .safe{ display:none; }
+
+ /* Bottom controls */
+ .footer{
+ margin-top: 18px;
+ padding-top: 10px;
+ border-top: 1px solid rgba(0,0,0,.12);
+ }
+ .note{
+ margin: 0 0 14px;
+ color: var(--muted);
+ font-size: 13px;
+ }
+
+ .controls{
+ display:flex;
+ gap: 18px;
+ flex-wrap:wrap;
+ justify-content:center;
+ align-items:center;
+ }
+
+ .btn{
+ border: 2px solid var(--border);
+ background:#fff;
+ border-radius: 12px;
+ padding: 16px 22px;
+ font-size: 18px;
+ font-weight: 800;
+ cursor:pointer;
+ min-width: 160px;
+ box-shadow: 0 2px 0 rgba(0,0,0,.06);
+ }
+ .btn:active{ transform: translateY(1px); }
+ .btn.primary{ border-color: rgba(11,74,162,.65); color: var(--accent); }
+ .btn.danger{ border-color: rgba(243, 159, 4, 0.945); color: var(--danger); }
+
+ .light-indicator{
+ text-align:center;
+ font-size: 13px;
+ color: var(--muted);
+ margin-top: 10px;
+ }
+ .pill{
+ display:inline-block;
+ padding: 4px 10px;
+ border: 1px solid rgba(0,0,0,.2);
+ border-radius: 999px;
+ font-weight: 700;
+ background:#fff;
+ color: var(--ink);
+ }
+
+ /* Make it stack nicely on small screens */
+ @media (max-width: 860px){
+ .grid{ grid-template-columns: 1fr; }
+ .left{ grid-template-columns: 1fr; }
+ .tagline{ text-align:left; }
+ }
+ </style>
+</head>
+<body>
+ <div class="page">
+ <div class="header">
+ <div class="brand">
+ <h1><span class="red">Fire Safety Systems</span> Co.</h1>
+ <div class="authors">T. Short, J. Kalhous, C. Saunders-Kong</div>
+ </div>
+ <div class="tagline">
+ <span class="underline">WE SAVE YOU, SO YOU DON’T HAVE TO</span>
+ </div>
+ </div>
+
+ <div class="grid">
+ <!-- LEFT SIDE -->
+ <div class="left">
+ <!-- Smoke -->
+ <section class="panel" aria-label="Smoke Sensor">
+ <h2>Smoke Sensor</h2>
+ <div class="value-box" id="smokeValue">--</div>
+ <div class="value-sub" id="smokeState">Waiting for data…</div>
+
+ <details>
+ <summary>More about the smoke sensor</summary>
+ <div class="info">
+ Shows relative smoke/air quality level from the sensor.
+ <br><br>
+ <b>Trigger:</b> smoke ≥ <span id="smokeThreshLabel"></span>
+ </div>
+ </details>
+ </section>
+
+ <!-- Temperature -->
+ <section class="panel" aria-label="Temperature Sensor">
+ <h2>Temperature Sensor</h2>
+ <div class="value-box" id="tempValue">--</div>
+ <div class="value-sub" id="tempState">Waiting for data…</div>
+
+ <details>
+ <summary>What the temp sensor reads</summary>
+ <div class="info">
+ Displays ambient temperature (°C). Used to detect abnormal heat rise.
+ <br><br>
+ <b>Trigger:</b> temp ≥ <span id="tempThreshLabel"></span> °C
+ </div>
+ </details>
+ </section>
+
+ <!-- Flame -->
+ <section class="panel" aria-label="Flame Sensor">
+ <h2>Flame Sensor</h2>
+ <div class="value-box" id="flameValue">--</div>
+ <div class="value-sub" id="flameState">Waiting for data…</div>
+
+ <details>
+ <summary>Flame sensor conditions</summary>
+ <div class="info">
+ Detects IR light often emitted by flames.
+ Many modules are sensitive around <b>~760 nm</b> and above.
+ <br><br>
+ <b>Trigger:</b> flame detected = TRUE
+ </div>
+ </details>
+ </section>
+ </div>
+
+ <!-- RIGHT SIDE -->
+ <aside class="right">
+ <div class="fire-box" id="fireBox">
+ <div class="fire-note">
+ Below is the overall fire status, determined by sensor values and thresholds. The system triggers a fire alert when at least two sensors indicate a potential fire condition.
+ </div>
+
+ <div class="fire-status">
+ <p class="safe">SYSTEM NORMAL</p>
+ <p class="big">FIRE<br/>DETECTED!!!</p>
+ </div>
+
+ <div class="fire-note" id="fireExplain">
+ Waiting for sensor readings…
+ </div>
+ </div>
+ </aside>
+ </div>
+
+ <div class="footer">
+ <p class="note">
+ * Lights are turned on and off automatically through the sensors, but can also be turned on and off manually through a button on the website.
+ </p>
+
+ <div class="controls">
+ <button class="btn primary" id="lightOnBtn" type="button">Light ON</button>
+ <button class="btn" id="lightAutoBtn" type="button">AUTO</button>
+ <button class="btn danger" id="lightOffBtn" type="button">Light OFF</button>
+ </div>
+
+ <div class="light-indicator">
+ Light status: <span class="pill" id="lightStatus">AUTO</span>
+ </div>
+ </div>
+ </div>
+
+ <script>
+ // ====== Thresholds ======
+ const THRESH = {
+ smoke: 1500, // demo units (e.g., ADC or ppm-like)
+ tempC: 60, // degrees C
+ flame: true // boolean
+ };
+
+ // Put threshold numbers into the UI
+ document.getElementById("smokeThreshLabel").textContent = THRESH.smoke;
+ document.getElementById("tempThreshLabel").textContent = THRESH.tempC;
+
+ // ====== Light control logic ======
+ // mode: "AUTO" | "MANUAL_ON" | "MANUAL_OFF"
+ let lightMode = "AUTO";
+ let lightIsOn = false;
+ let lastReading = null; // last sensor reading (used to reset AUTO immediately)
+
+ const lightStatusEl = document.getElementById("lightStatus");
+ const lightOnBtn = document.getElementById("lightOnBtn");
+ const lightAutoBtn = document.getElementById("lightAutoBtn");
+ const lightOffBtn = document.getElementById("lightOffBtn");
+
+ async function sendLightCommand(mode) {
+ try {
+ const res = await fetch(`/light?mode=${mode}`);
+ const data = await res.json();
+ console.log("Light command result:", data);
+ } catch (err) {
+ console.error("Light command failed:", err);
+ 
+ }
+ }
+ 
+
+ function setLightMode(mode){
+ lightMode = mode;
+ if (mode === "AUTO") lightStatusEl.textContent = "AUTO";
+ if (mode === "MANUAL_ON") lightStatusEl.textContent = "MANUAL ON";
+ if (mode === "MANUAL_OFF") lightStatusEl.textContent = "MANUAL OFF";
+ renderLight();
+ }
+
+ function renderLight(){
+ lightStatusEl.style.borderColor = lightIsOn ? "rgba(10,122,50,.45)" : "rgba(0,0,0,.2)";
+ lightStatusEl.style.color = lightIsOn ? "#0a7a32" : "#111";
+ lightStatusEl.textContent = `${lightMode}${lightMode === "AUTO" ? "" : ""} — ${lightIsOn ? "ON" : "OFF"}`;
+ }
+
+ lightOnBtn.addEventListener("click", async () => {
+ lightIsOn = true;
+ setLightMode("MANUAL_ON");
+ await sendLightCommand("on");
+ });
+
+ lightAutoBtn.addEventListener("click", async () => {
+ setLightMode("AUTO");
+ await sendLightCommand("auto");
+ if (lastReading) updateUI(lastReading);
+ });
+
+ lightOffBtn.addEventListener("click", async () => {
+ lightIsOn = false;
+ setLightMode("MANUAL_OFF");
+ await sendLightCommand("off");
+ });
+
+ // ====== Sensor rendering ======
+ const smokeValueEl = document.getElementById("smokeValue");
+ const tempValueEl = document.getElementById("tempValue");
+ const flameValueEl = document.getElementById("flameValue");
+
+ const smokeStateEl = document.getElementById("smokeState");
+ const tempStateEl = document.getElementById("tempState");
+ const flameStateEl = document.getElementById("flameState");
+
+ const fireBoxEl = document.getElementById("fireBox");
+ const fireExplainEl = document.getElementById("fireExplain");
+
+ function sensorStateLabel(isTriggered){
+ return isTriggered ? "TRIGGERED" : "Normal";
+ }
+
+ function updateUI(reading){
+ // reading = { smoke, tempC, flameDetected }
+
+ // Trigger checks
+ const smokeTrig = reading.smoke >= THRESH.smoke;
+ const tempTrig = reading.tempC >= THRESH.tempC;
+ const flameTrig = reading.flameDetected === true;
+
+ // Values
+ smokeValueEl.textContent = `${reading.smoke}`;
+ tempValueEl.textContent = `${reading.tempC.toFixed(1)} °C`;
+ flameValueEl.textContent = flameTrig ? "DETECTED" : "Not detected";
+
+ // Sub-status lines
+ smokeStateEl.textContent = `Status: ${sensorStateLabel(smokeTrig)}`;
+ tempStateEl.textContent = `Status: ${sensorStateLabel(tempTrig)}`;
+ flameStateEl.textContent = `Status: ${sensorStateLabel(flameTrig)}`;
+
+ // Fire logic: two must be triggered
+ const fire = (smokeTrig && tempTrig) || (smokeTrig && flameTrig) || (tempTrig && flameTrig);
+
+ fireBoxEl.classList.toggle("fire-on", fire);
+
+ fireExplainEl.textContent = fire
+ ? `Two of the sensors triggered the fire alert.`
+ : `Fire requires two sensors to trigger.`;
+
+ // turn on lights when fire detected, otherwise off.
+ if (lightMode === "AUTO"){
+ lightIsOn = fire; // auto on during fire
+ renderLight();
+ }
+ }
+ setLightMode("AUTO");
+
+async function getReadings() {
+ try {
+ const res = await fetch("/readings");
+ const reading = await res.json();
+
+ lastReading = reading;
+ updateUI({
+ smoke: reading.smoke,
+ tempC: reading.tempC,
+ flameDetected: reading.flameDetected
+ });
+ } catch (err) {
+ console.error("Failed to fetch readings:", err);
+ }
+}
+
+setInterval(getReadings, 2000);
+getReadings();
+
+ </script>
+</body>
+</html>
